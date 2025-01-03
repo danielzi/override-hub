@@ -98,6 +98,18 @@ rule-providers:
     format: yaml
     type: http
 
+append-proxy-groups:
+        - name: ⚖️ 负载均衡-散列
+          type: load-balance
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          strategy: consistent-hashing
+        - name: ⚖️ 负载均衡-轮询
+          type: load-balance
+          url: 'http://www.google.com/generate_204'
+          interval: 300
+          strategy: round-robin
+
 proxy-groups:
   - icon: https://mirror.ghproxy.com/https://raw.githubusercontent.com/Orz-3/mini/master/Color/Static.png
     include-all: true
@@ -110,11 +122,29 @@ proxy-groups:
       - SG AUTO
       - JP AUTO
       - US AUTO
+      - 负载均衡-轮询
+      - 负载均衡-散列
   - icon: https://mirror.ghproxy.com/https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png
     include-all: true
     exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
     name: AUTO
     type: url-test
+    interval: 300
+  - icon: https://mirror.ghproxy.com/https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    name: 负载均衡-轮询
+    url: 'http://www.google.com/generate_204'
+    type: load-balance
+    interval: 300
+    strategy: round-robin
+  - icon: https://mirror.ghproxy.com/https://raw.githubusercontent.com/Orz-3/mini/master/Color/Urltest.png
+    include-all: true
+    exclude-filter: (?i)GB|Traffic|Expire|Premium|频道|订阅|ISP|流量|到期|重置
+    name: 负载均衡-散列
+    url: 'http://www.google.com/generate_204'
+    type: load-balance
+    strategy: consistent-hashing
     interval: 300
   - icon: https://mirror.ghproxy.com/https://raw.githubusercontent.com/Orz-3/mini/master/Color/OpenAI.png
     name: AIGC
